@@ -14,11 +14,11 @@ from challenges.views.level_1.b_book_details import get_book
 
 
 def delete_book(book_id: int) -> None:
-    try:
-        book = Book.objects.get(id=book_id)
-        book.delete()
-    except ObjectDoesNotExist:
+    book = get_book(book_id)
+    if not book:
         return
+
+    book.delete()
 
 
 def delete_book_handler(request: HttpRequest, book_id: int) -> HttpResponse:
