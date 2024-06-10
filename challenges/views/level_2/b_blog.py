@@ -75,7 +75,8 @@ def last_days_posts_list_view(request: HttpRequest) -> HttpResponse:
         last_days = int(request.GET.get('last_days', 0))
         print(last_days)
         if last_days:
-            posts = BlogPost.objects.filter(publication_date__gte=timezone.now()-timedelta(days=last_days))
+            publication_date_from = timezone.now()-timedelta(days=last_days)
+            posts = BlogPost.objects.filter(publication_date__gte=publication_date_from)
             posts = serializers.serialize('json', posts)
             return HttpResponse(posts, content_type='application/json')
     return HttpResponse(None, content_type='application/json')
